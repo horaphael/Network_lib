@@ -54,8 +54,9 @@ Compilez avec :
 | `LOG_INFO(...)`, `LOG_ERROR(...)`, etc.      | Macros de logs colorés           |
 
 
-🚀 Exemple d'utilisation
+# Exemple d'utilisation
 
+Veuillez consulter le fichier suivant pour un exemple d'utilisation :
 exemples/main_exemple.c
 
 # Démarrer le serveur
