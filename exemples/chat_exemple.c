@@ -41,7 +41,8 @@ void handle_client_data(net_client_t *client, net_server_t *server, void *args)
     (void)args;
     char formatted_msg[1024];
 
-    snprintf(formatted_msg, sizeof(formatted_msg), "%sUser %d: %s\033[0m", color_codes[client->fd % 7], client->fd, client->buffer);
+    LOG_INFO("Commande reçue de %d: %s", client->fd, client->buffer);
+    snprintf(formatted_msg, sizeof(formatted_msg), "%sUser %d send you:\n %s\033[0m\n", color_codes[client->fd % 7], client->fd, client->buffer);
     msg_packet_t packet = {
         .message = formatted_msg,
         .message_size = strlen(formatted_msg) + 1
@@ -51,7 +52,7 @@ void handle_client_data(net_client_t *client, net_server_t *server, void *args)
 
 int main(void)
 {
-    net_server_t *server = net_server_create("127.0.0.1", 4243, 1024);
+    net_server_t *server = net_server_create("127.0.0.1", 4242, 1024);
     int timeout = 0;
     char data_command[256] = "Commande reçu";
     char data_disconnect_command[256] = "Commande disconnection reçu";
@@ -61,7 +62,7 @@ int main(void)
         return 84;
     net_set_handle_connection(server, handle_client_connect, data_connect_command);
     net_set_handle_disconnection(server, handle_client_disconnect, data_disconnect_command);
-    net_set_handle_data(server, handle_client_data, data_command);
+    net_set_handle_data(server, handle_client_data, NULL);
     if (!net_server_start(server))
         return 84;
     while (server->running) {
