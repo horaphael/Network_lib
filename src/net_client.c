@@ -27,8 +27,6 @@ void net_close_client(net_server_t *server, int fd)
             close(server->clients[i].fd);
             server->clients[i].fd = -1;
             server->clients[i].active = false;
-            if (server->clients->buffer)
-                free(server->clients->buffer);
             server->pfds[i + 1].fd = -1;
             server->pfds[i + 1].events = 0;
             server->pfds[i + 1].revents = 0;
